@@ -1,11 +1,9 @@
 # Lumen Studio
 
-Static Lumen Studio prototype. Open `index.html` locally or deploy the project folder to Cloudflare Pages.
+Static Lumen Studio prototype. The deployable site is in `public/`, with the font and image in `public/assets/`.
 
-Assets are stored in `assets/`. The original HTML export is retained outside this repository.
-
-To deploy updates, run from this folder:
+To deploy updates from this folder:
 
 ```sh
-npx wrangler pages deploy . --project-name lumen-studio --branch main
+npx wrangler pages deploy public --project-name lumen-studio --branch main
 ```
