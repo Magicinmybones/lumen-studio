@@ -211,6 +211,69 @@ a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:3px}
   .ft__field{min-height:max(150px, 40vw)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* One opening sequence. The artwork stays still; only foreground groups enter. */
+@media (prefers-reduced-motion:no-preference){
+  .brand__logo{
+    animation:brand-reveal .72s cubic-bezier(.22,1,.36,1) .08s both;
+  }
+  .brand__tag{
+    animation:content-settle .62s cubic-bezier(.22,1,.36,1) .3s both;
+  }
+  .brand__social{
+    animation:content-settle .52s cubic-bezier(.22,1,.36,1) .48s both;
+  }
+  .ft__top>.col{
+    animation:content-settle .6s cubic-bezier(.22,1,.36,1) both;
+  }
+  .ft__top>.col:nth-child(2){animation-delay:.28s}
+  .ft__top>.col:nth-child(3){animation-delay:.36s}
+  .ft__top>.col:nth-child(4){animation-delay:.44s}
+  .ft__top>.col:nth-child(5){animation-delay:.52s}
+  .ft__bar{
+    animation:bar-appear .65s cubic-bezier(.22,1,.36,1) 1.05s both;
+  }
+  .ft__word{
+    animation:word-unveil 1.14s cubic-bezier(.2,.82,.2,1) .54s both;
+  }
+  .ft__word>span{
+    animation:word-settle .98s cubic-bezier(.2,.82,.2,1) .6s both;
+  }
+
+  /* On narrow screens the wordmark sits below the opening viewport. */
+  @media (max-width:639.98px){
+    .ft__word,.ft__word>span{animation:none}
+  }
+
+  /* Remove every completed animation so the authored static styles take over. */
+  .entrance-complete .brand__logo,
+  .entrance-complete .brand__tag,
+  .entrance-complete .brand__social,
+  .entrance-complete .ft__top>.col,
+  .entrance-complete .ft__bar,
+  .entrance-complete .ft__word,
+  .entrance-complete .ft__word>span{animation:none}
+}
+@keyframes brand-reveal{
+  from{clip-path:inset(0 100% 0 0)}
+  to{clip-path:inset(0)}
+}
+@keyframes content-settle{
+  from{opacity:0;transform:translateY(9px)}
+  to{opacity:1;transform:none}
+}
+@keyframes bar-appear{
+  from{opacity:0}
+  to{opacity:1}
+}
+@keyframes word-unveil{
+  from{clip-path:inset(100% 0 0 0)}
+  to{clip-path:inset(0)}
+}
+@keyframes word-settle{
+  from{transform:translateY(18%)}
+  to{transform:none}
+}
 </style>
 </head>
 <body>
@@ -265,5 +328,12 @@ a:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:3px}
     <p class="ft__word" aria-hidden="true"><span>Lume<span class="k1">n</span> S<span class="k2">t</span><span class="k3">u</span>dio</span></p>
   </div>
 </footer>
+<script>
+  document.querySelector('.ft__bar').addEventListener('animationend', (event) => {
+    if (event.animationName === 'bar-appear') {
+      document.documentElement.classList.add('entrance-complete');
+    }
+  }, {once:true});
+</script>
 </body>
 </html>
